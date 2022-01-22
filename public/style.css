@@ -1,0 +1,9 @@
+.card-header{
+    position: relative;
+}
+.card-header .fa{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}

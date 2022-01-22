@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Tracker</title>
+    <meta name="description" content="Activity tracker app created by saqib aziz">
+    <link rel="shortcut icon" href="/brand.png" type="image/x-icon">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- css -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    
+    <header class="bg-light py-4 px-2 d-flex justify-content-center align-items-center">
+        <img height="60px" src="/brand.png" alt="brand">
+        <h1>Activity Tracker</h1>
+    </header>
+    
+    <div class="container my-5">
+        <!-- add modal -->
+        <div class="d-flex justify-content-end">
+            <%- include('./partials/add.ejs') %>
+        </div>
+
+        <% if(activities.length === 0){ %>
+            <p class="lead text-center">No Activities yet</p>
+        <% }else{ %>
+            <!-- displaying activities -->
+        <div class="row mt-4">
+            <div class="col-sm-4">
+                <% activities.forEach((activity, i) =>{ %>
+                    <% if(activity.category === 'common'){ %>
+                        <div class="card text-white bg-primary mb-3">
+                            <div class="card-header">
+                                <!-- Button trigger modal -->
+                                <i type="button" class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#m<%=i%>">
+                                </i>
+                                <!-- Modal -->
+                                <div class="modal fade text-dark" id="m<%=i%>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <p class="lead">Sure you want to remove "<%=activity.title%>"</p>
+                                            <form action="/<%=activity.id%>?_method=DELETE" method="post">
+                                                <button type="submit" class="btn btn-sm btn-danger px-4">Yes</button>
+                                                <span style="cursor: pointer;" class="ms-2 px-2" data-bs-dismiss="modal" aria-label="Close">No</span>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                              <h4 class="card-title"><%= activity.title %> </h4>
+                              <p class="card-text"><%= activity.desc %> </p>
+                            </div>
+                          </div>
+                    <% } %>  
+                <% }) %>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <% activities.forEach((activity, i) => { %>
+                        <% if(activity.category !== 'common'){ %>
+                            <div class="col-md-6">
+                                <div class="card bg-secondary mb-3" >
+                                    <div class="card-header">
+
+                                        <!-- Button trigger modal -->
+                                    <i type="button" class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#m<%=i%>">
+                                    </i>
+                                    <!-- Modal -->
+                                    <div class="modal fade text-dark" id="m<%=i%>" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <p class="lead">Sure you want to remove "<%=activity.title%>"</p>
+                                                <form action="/<%=activity.id%>?_method=DELETE" method="post">
+                                                    <button type="submit" class="btn btn-sm btn-danger px-4">Yes</button>
+                                                    <span style="cursor: pointer;" class="ms-2 px-2" data-bs-dismiss="modal" aria-label="Close">No</span>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                        <% if(activity.category === 'long term'){ %>
+                                            <span class="badge rounded-pill bg-success">Long Term</span>
+                                        <% } %>
+                                        <% if(activity.category === 'short term'){ %>
+                                            <span class="badge rounded-pill bg-danger">Short Term</span>
+                                        <% } %>   
+                                    </div>
+                                    <div class="card-body">
+                                    <h4 class="card-title"><%= activity.title %></h4>
+                                    <p class="card-text"><%= activity.desc %></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>  
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+        <% } %>   
+
+    </div>
+    
+    
+</body>
+<script src="/bootstrap.min.js"></script>
+</html>
